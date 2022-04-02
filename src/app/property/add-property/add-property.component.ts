@@ -3,7 +3,6 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IPropertyBase } from 'src/app/models/IPropertyBase';
-import { IProperty } from '../IProperty.interface';
 
 
 @Component({
@@ -17,16 +16,22 @@ export class AddPropertyComponent implements OnInit {
 
   @ViewChild('formTabSets') formTabSets: TabsetComponent;
 
-  propertyView:IProperty ={
-    Id: 0,
-    SellPent: 0,
-    Name: '',
-    Type: '',
-    Price: 0
+  propertyView:IPropertyBase ={
+    Id: null,
+    SellRent: null,
+    Name: null,
+    PType: null,
+    FType: null,
+    Price: null,
+    BHK: null,
+    BuiltArea: null,
+    City: null,
+    RTM: null
+
   };
 
   propertyType: Array<string>=["House","Vila","Flat","Appretment"];
-  furnishType:Array<string>=["Fully","Semi","Unfurnish"];
+  furnishType:Array<string>=["Fully","Semi","Unfurnished"];
   areaZoon:Array<string>=["East","West","South","North"];
   constructor(private router:Router) { }
 
@@ -36,9 +41,9 @@ export class AddPropertyComponent implements OnInit {
   onBack(){
     this.router.navigate(['/']);
   }
-  onSubmited(Form:NgForm){
+  onSubmited(){
     console.log("Congratulated");
-    console.log(Form);
+    console.log(this.addPropertyForm);
   }
   selectTab(tabId: number) {
     if (this.formTabSets?.tabs[tabId]) {
