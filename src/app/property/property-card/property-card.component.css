@@ -1,6 +1,16 @@
 .card{
   min-height: 450px;
 }
+
+.card-body h1{
+  font-family: fantasy;
+  color: rgb(70, 70, 240);
+
+}
+.form-highlight{
+  font-family: italic;
+  color: red;
+}
 .propImg{
   height: 250px;
   width: 250px;
