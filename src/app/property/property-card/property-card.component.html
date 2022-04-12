@@ -4,8 +4,13 @@
         <img *ngIf="Property.Image" src="assets/House/{{Property.Image}}" class="card-img-top " alt="defaulthouse">
         <img *ngIf="!Property.Image" src="assets/House/house_default.png" class="card-img-top " alt="defaulthouse">
         <ul *ngIf="! hidenIcon" class="list-item text-center member-icon animation">
-          <li class="list-inline-item" ><button routerLink="/property-detail/{{Property.Id}}" class="btn  btn-primary">D</button></li>
-          <li class="list-inline-item" ><button class="btn  btn-primary">C</button></li>
+          <li class="list-inline-item" >
+            <button routerLink="/property-detail/{{Property.Id}}" class="btn  btn-primary">
+            <i class="far fa-edit"></i></button>
+          </li>
+          <li class="list-inline-item" >
+            <button class="btn  btn-primary"><i class="far fa-address-book"></i></button>
+          </li>
         </ul>
       </div>
       <div class="card-body p-2">
