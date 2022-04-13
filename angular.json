@@ -101,6 +101,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "housing-App:build:production",
+            "firebaseProject": "housing-angular13",
+            "firebaseHostingSite": "housing-angular13"
+          }
         }
       }
     }
