@@ -22,6 +22,7 @@ export class AddPropertyComponent implements OnInit {
   addPropertyForm:FormGroup;
   NextTab:boolean;
   property=new Property();
+  cityList:any[];
 
   propertyView:IPropertyBase ={
     Id: null,
@@ -32,7 +33,7 @@ export class AddPropertyComponent implements OnInit {
     Price: null,
     BHK: null,
     BuiltArea: null,
-    City: null,
+    City: '',
     RTM: null
 
   };
@@ -47,6 +48,12 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit(): void {
     this.createAddPropertyForm();
+    this.hServices.getAllCities().subscribe(
+      data=>{
+        this.cityList=data;
+        console.log(data);
+      }
+    )
   }
 
   createAddPropertyForm(){
