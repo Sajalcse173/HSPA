@@ -51,7 +51,7 @@ export class AddPropertyComponent implements OnInit {
     this.hServices.getAllCities().subscribe(
       data=>{
         this.cityList=data;
-        console.log(data);
+        // console.log(data);
       }
     )
   }

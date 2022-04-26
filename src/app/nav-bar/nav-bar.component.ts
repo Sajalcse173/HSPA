@@ -16,10 +16,12 @@ export class NavBarComponent implements OnInit {
   }
 
   loggedin(){
-    return this.loggedinUser= localStorage.getItem('token');
+     this.loggedinUser= localStorage.getItem('userName');
+     return this.loggedinUser;
   }
   onLogout(){
-    return  localStorage.removeItem('token');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     this.alertyfy.Success("You are loggedOut");
   }
 
