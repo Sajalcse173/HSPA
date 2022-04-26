@@ -20,7 +20,7 @@ export class UserLoginComponent implements OnInit {
   }
   onLogin(loginForm:NgForm){
     console.log(loginForm.value);
-    this.userAuth.addUser(loginForm.value).subscribe(
+    this.userAuth.loginUser(loginForm.value).subscribe(
       (resposce:UserForLogin)=>{
         console.log(resposce);
         const user=resposce;
@@ -34,13 +34,6 @@ export class UserLoginComponent implements OnInit {
       }
 
     );
-    // if(token){
-    //   localStorage.setItem('token',token.userName);
-    //   this.alertify.Success("Login Sucessfully");
-    //   this.router.navigate(['/']);
-    // }else{
-    //   this.alertify.Errors("Login Faild");
-    // }
   }
 
 }
