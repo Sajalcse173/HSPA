@@ -80,11 +80,6 @@ export class UserRegisterComponent implements OnInit {
         this.registerationForm.reset();
         this.alertify.Success("Contratulation Sucessfully data save");
         this.userSubmited=false;
-      },error=>{
-        console.log(error);
-        this.userSubmited=false;
-        this.alertify.Errors(error.error);
-
       }
       );
     }
