@@ -7,6 +7,8 @@ import { flatMap } from 'rxjs';
 import { Property } from 'src/app/models/Property';
 import { HousingService } from 'src/app/services/housing.service';
 import { AlertifyserviceService } from 'src/app/services/alertifyservice.service';
+import { IkeyValuePiar } from 'src/app/models/IkeyValuePiar';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -25,26 +27,29 @@ export class AddPropertyComponent implements OnInit {
   cityList:any[];
 
   propertyView:IPropertyBase ={
-    Id: null,
-    SellRent: null,
-    Name: null,
-    PType: null,
-    FType: null,
-    Price: null,
-    BHK: null,
-    BuiltArea: null,
-    City: '',
-    RTM: null
+    id: null,
+    sellRent: null,
+    name: null,
+    propertyType: null,
+    furnishingType: null,
+    price: null,
+    bhk: null,
+    builtArea: null,
+    city: '',
+    readyToMove: null
 
   };
 
-  propertyType: Array<string>=["House","Vila","Flat","Appretment"];
-  furnishType:Array<string>=["Fully","Semi","Unfurnished"];
+  propertyType: IkeyValuePiar[];
+  furnishType:IkeyValuePiar[];
   areaZoon:Array<string>=["East","West","South","North"];
 
 
-  constructor(private fb:FormBuilder,private router:Router,private hServices:HousingService,
-    private alertify:AlertifyserviceService) { }
+  constructor(private fb:FormBuilder,
+              private router:Router,
+              private hServices:HousingService,
+              private alertify:AlertifyserviceService,
+              private datePipe:DatePipe) { }
 
   ngOnInit(): void {
     this.createAddPropertyForm();
@@ -52,6 +57,16 @@ export class AddPropertyComponent implements OnInit {
       data=>{
         this.cityList=data;
         // console.log(data);
+      }
+    )
+    this.hServices.getPropertyTypes().subscribe(
+      data=>{
+       this.propertyType=data;
+      }
+    )
+    this.hServices.getFurnishingTypes().subscribe(
+      data=>{
+       this.furnishType=data;
       }
     )
   }
@@ -195,14 +210,18 @@ export class AddPropertyComponent implements OnInit {
     this.NextTab=true;
     if(this.allTabsValid()){
       this.mapProperty();
-      this.hServices.addProperty(this.property);
-      this.alertify.Success("SucessFull Store Data in Localstorage");
-      console.log(this.addPropertyForm);
-      if(this.SellRent.value==='2'){
-        this.router.navigate(['/rent-property']);
-      }else{
-        this.router.navigate(['/']);
-      }
+      this.hServices.addProperty(this.property).subscribe(
+        ()=>{
+            this.alertify.Success("Congratulaion your property was sucessfully added on website");
+            console.log(this.addPropertyForm);
+            if(this.SellRent.value==='2'){
+              this.router.navigate(['/rent-property']);
+            }else{
+
+              this.router.navigate(['/']);
+            }
+         }
+      );
     }
     else{
       console.log("Review From");
@@ -211,29 +230,29 @@ export class AddPropertyComponent implements OnInit {
   }
 
   mapProperty():void{
-    this.property.Id=this.hServices.newPropID();
-    this.property.SellRent=+this.SellRent.value;
-    this.property.BHK=this.BHK.value;
-    this.property.PType=this.PType.value;
-    this.property.Name=this.Name.value;
-    this.property.City=this.City.value;
-    this.property.FType=this.FType.value;
-    this.property.Price=this.Price.value;
-    this.property.Security=this.Security.value;
-    this.property.Maintenance=this.Maintain.value;
-    this.property.BuiltArea=this.BuiltArea.value;
-    this.property.CarParkArea=this.CarpetArea.value;
-    this.property.FloorNo=this.FloorNo.value;
-    this.property.TotalFlor=this.TotalFloor.value;
-    this.property.Address=this.Address.value;
-    this.property.Address2=this.LandMark.value;
-    this.property.RTM=this.RTM.value;
-    this.property.AgeProperty=this.Ageproperty.value;
-    this.property.Gated=this.GetedCommunity.value;
-    this.property.MainEntrance=this.Area.value;
-    this.property.Possession=this.PossessionOn.value;
-    this.property.Description=this.Description.value;
-    this.property.PostedOn=new Date().toString();
+    this.property.id=this.hServices.newPropID();
+    this.property.sellRent=+this.SellRent.value;
+    this.property.bhk=this.BHK.value;
+    this.property.propertyTypeId=this.PType.value;
+    this.property.name=this.Name.value;
+    this.property.cityId=this.City.value;
+    this.property.furnishingTypeId=this.FType.value;
+    this.property.price=this.Price.value;
+    this.property.security=this.Security.value;
+    this.property.maintenance=this.Maintain.value;
+    this.property.builtArea=this.BuiltArea.value;
+    this.property.carParkArea=this.CarpetArea.value;
+    this.property.floorNo=this.FloorNo.value;
+    this.property.totalFloors=this.TotalFloor.value;
+    this.property.address=this.Address.value;
+    this.property.adress2=this.LandMark.value;
+    this.property.readyToMove=this.RTM.value;
+    this.property.age=this.Ageproperty.value;
+    this.property.gated=this.GetedCommunity.value;
+    this.property.mainEntrance=this.Area.value;
+    this.property.estPossessionOn=this.datePipe.transform(this.PossessionOn.value,'MM/dd/yyyy');
+    this.property.description=this.Description.value;
+    // this.property.PostedOn=new Date().toString();
   }
 
   allTabsValid(): boolean{

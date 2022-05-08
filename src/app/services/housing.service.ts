@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IPropertyBase } from '../models/IPropertyBase';
 import { Property } from '../models/Property';
+import { IkeyValuePiar } from '../models/IkeyValuePiar';
 
 
 @Injectable({
@@ -17,60 +18,24 @@ export class HousingService {
     return this.http.get<string[]>('http://localhost:5000/api/city');
   }
 
+  getPropertyTypes():Observable<IkeyValuePiar[]>{
+    return this.http.get<IkeyValuePiar[]>('http://localhost:5000/api/propertytype/list');
+  }
+  getFurnishingTypes():Observable<IkeyValuePiar[]>{
+    return this.http.get<IkeyValuePiar[]>('http://localhost:5000/api/furnishingtype/list');
+  }
+
+
   getProperty(id:number){
-    return this.getAllProperties().pipe(
-      map(propertyArray=>{
-
-        // throw new Error('XXX');
-
-        return propertyArray.find(p=>p.Id===id);
-      })
-    );
+    return this.http.get<Property>('http://localhost:5000/api/property/detail/'+id.toString());
   }
 
   getAllProperties(SellRent?:number):Observable<Property[]>{
-    return this.http.get('data/properties.json').pipe(
-      // map( data=>data as IProperty[])
-      map(data=>{
-        const propertiesArray:Array<Property>=[];
-        const localProperties=JSON.parse(localStorage.getItem('newProp'));
-
-        if(localProperties){
-          for(const id in localProperties){
-            if(SellRent){
-              if(localProperties.hasOwnProperty(id) && localProperties[id].SellRent === SellRent){
-                propertiesArray.push(localProperties[id]);
-              }
-            }
-            else{
-              propertiesArray.push(localProperties[id]);
-            }
-         }
-        }
-
-
-        for(const id in data){
-          if(SellRent){
-            if(data.hasOwnProperty(id) && data[id].SellRent === SellRent){
-              propertiesArray.push(data[id]);
-            }
-          }else{
-              propertiesArray.push(data[id]);
-          }
-        }
-        return propertiesArray;
-      })
-    );
-
-
+    return this.http.get<Property[]>('http://localhost:5000/api/property/list/'+SellRent.toString());
   }
 
   addProperty(property:Property){
-    let newProp=[property];
-    if(localStorage.getItem('newProp')){
-      newProp=[property, ...JSON.parse(localStorage.getItem('newProp'))];
-    }
-    localStorage.setItem('newProp',JSON.stringify(newProp));
+    return this.http.post('http://localhost:5000/api/property/add',property);
   }
 
   newPropID() {
@@ -81,6 +46,24 @@ export class HousingService {
       localStorage.setItem('PID', '101');
       return 101;
     }
+  }
+
+  getPropertyAge(estDateofPro:string):string{
+    const today=new Date();
+    const estDate=new Date(estDateofPro);
+    let age=today.getFullYear()-estDate.getFullYear();
+    const m=today.getMonth()-estDate.getMonth();
+
+    if(m<0||(m===0 && today.getDate()<estDate.getDate())){
+      age--;
+    }
+    if(today<estDate){
+      return '0';
+    }
+    if(age==0){
+      return 'less than a year';
+    }
+    return age.toString();
   }
 
 
