@@ -52,6 +52,12 @@ export class AddPropertyComponent implements OnInit {
               private datePipe:DatePipe) { }
 
   ngOnInit(): void {
+
+    if(!localStorage.getItem('userName')){
+      this.alertify.Errors("You must loged for adding property");
+      this.router.navigate(['/user/login']);
+
+    }
     this.createAddPropertyForm();
     this.hServices.getAllCities().subscribe(
       data=>{
@@ -84,19 +90,19 @@ export class AddPropertyComponent implements OnInit {
       PriceInfo:this.fb.group({
         Price:[null,Validators.required],
         BuiltArea:[null,Validators.required],
-        Security:[null],
-        Maintain:[null],
+        Security:[0],
+        Maintain:[0],
         CarpetArea:[null]
       }),
       AddressInfo:this.fb.group({
-        FloorNo:[null,Validators.required],
+        FloorNo:[null],
         Address:[null,Validators.required],
         TotalFloor:[null],
         LandMark:[null]
       }),
       OtherInfo:this.fb.group({
         RTM:[null,Validators.required],
-        PossessionOn:[null],
+        PossessionOn:[null,Validators.required],
         Ageproperty:[null],
         GetedCommunity:[null],
         Area:[null],
@@ -241,13 +247,13 @@ export class AddPropertyComponent implements OnInit {
     this.property.security=this.Security.value;
     this.property.maintenance=this.Maintain.value;
     this.property.builtArea=this.BuiltArea.value;
-    this.property.carParkArea=this.CarpetArea.value;
+    this.property.carpetArea=this.CarpetArea.value;
     this.property.floorNo=this.FloorNo.value;
     this.property.totalFloors=this.TotalFloor.value;
     this.property.address=this.Address.value;
-    this.property.adress2=this.LandMark.value;
+    this.property.address2=this.LandMark.value;
     this.property.readyToMove=this.RTM.value;
-    this.property.age=this.Ageproperty.value;
+    // this.property.age=this.Ageproperty.value;
     this.property.gated=this.GetedCommunity.value;
     this.property.mainEntrance=this.Area.value;
     this.property.estPossessionOn=this.datePipe.transform(this.PossessionOn.value,'MM/dd/yyyy');

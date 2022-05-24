@@ -1,8 +1,8 @@
 
     <div class="card">
       <div class="card-Img-warap">
-        <img *ngIf="Property.image" src="assets/House/{{Property.image}}" class="card-img-top " alt="defaulthouse">
-        <img *ngIf="!Property.image" src="assets/House/house_default.png" class="card-img-top " alt="defaulthouse">
+        <img *ngIf="Property.photo" src="{{Property.photo}}" class="card-img-top " alt="defaulthouse">
+        <img *ngIf="!Property.photo" src="assets/House/house_default.png" class="card-img-top " alt="defaulthouse">
         <ul *ngIf="! hidenIcon" class="list-item text-center member-icon animation">
           <li class="list-inline-item" >
             <button routerLink="/property-detail/{{Property.id}}" class="btn  btn-primary">

@@ -3,8 +3,8 @@
   <div class="col-sm-4 p-0">
     <div class="card">
         <div class="card-Img-warap">
-          <img *ngIf="property.image" class="card-img-top" src="assets/House/{{property.image}}">
-          <img *ngIf="!property.image" class="card-img-top" src="assets/House/house_default.png">
+          <img *ngIf="mainPhotoUrl" class="card-img-top" src="{{mainPhotoUrl}}">
+          <img *ngIf="!mainPhotoUrl" class="card-img-top" src="assets/House/house_default.png">
         </div>
         <div class="card-body">
           <h1 class="card-title">{{property.name}}</h1>
@@ -20,7 +20,7 @@
           </div>
           <div>
             <strong>CarPark Area</strong>
-            {{property.carParkArea}} Sqft
+            {{property.carpetArea}} Sqft
           </div>
           <div>
             <strong>Furnishing Type: </strong>
@@ -107,7 +107,7 @@
             <h1>Address</h1>
             <div class="heading">
                 <strong>{{property.address}}</strong><br/>
-                <strong>{{property.adress2}}</strong><br/>
+                <strong>{{property.address2}}</strong><br/>
                 <strong>{{property.city}}</strong>
             </div>
           </div>

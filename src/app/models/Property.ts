@@ -1,4 +1,5 @@
 import { IPropertyBase } from "./IPropertyBase";
+import { Photo } from "./Photo";
 
 
 export class Property implements IPropertyBase{
@@ -12,9 +13,9 @@ export class Property implements IPropertyBase{
   price: number;
   bhk: number;
   builtArea: number;
-  carParkArea?: number;
+  carpetArea?: number;
   address:string;
-  adress2?:string;
+  address2?:string;
   city: string;
   cityId:number;
   floorNo?:string;
@@ -26,7 +27,7 @@ export class Property implements IPropertyBase{
   gated?:boolean;
   maintenance?:number;
   estPossessionOn?:string;
-  image?: string;
+  photo?: string;
   description?:string;
-
+  photos?:Photo[];
 }

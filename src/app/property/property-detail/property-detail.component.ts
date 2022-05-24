@@ -19,6 +19,7 @@ export class PropertyDetailComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[]
 
+  public mainPhotoUrl:string=null;
   public PropertyId:number;
   route: any;
   constructor(private routes:ActivatedRoute,
@@ -27,8 +28,11 @@ export class PropertyDetailComponent implements OnInit {
   ngOnInit() {
     this.PropertyId=Number(this.routes.snapshot.params['id']);
     this.routes.data.subscribe(
-      (data:Property)=>
-      this.property=data['prp']
+      (data:Property)=>{
+        this.property=data['prp']
+        console.log(this.property.photos);
+      }
+
       );
 
       this.property.age=this.housingService.getPropertyAge(this.property.estPossessionOn);
@@ -55,33 +59,32 @@ export class PropertyDetailComponent implements OnInit {
       }
     ];
 
-    this.galleryImages = [
-      {
-        small: 'assets/House/Img1.jpg',
-        medium: 'assets/House/Img1.jpg',
-        big: 'assets/House/Img1.jpg'
-      },
-      {
-        small: 'assets/House/Img2.jpg',
-        medium: 'assets/House/Img2.jpg',
-        big: 'assets/House/Img2.jpg'
-      },
-      {
-        small: 'assets/House/Img3.jpg',
-        medium: 'assets/House/Img3.jpg',
-        big: 'assets/House/Img3.jpg'
-      },{
-        small: 'assets/House/Img4.jpg',
-        medium: 'assets/House/Img4.jpg',
-        big: 'assets/House/Img4.jpg'
-      },
-      {
-        small: 'assets/House/Img6.jpg',
-        medium: 'assets/House/Img6.jpg',
-        big: 'assets/House/Img6.jpg'
-      }
-    ];
+    this.galleryImages =this.getPropertyPhotos();
 
+
+  }
+
+  getPropertyPhotos():NgxGalleryImage[]{
+    const photoUrl: NgxGalleryImage[]=[];
+    for(const photo of this.property.photos){
+      if(photo.isPrimary)
+      {
+        this.mainPhotoUrl=photo.imageUrl;
+      }
+      else
+      {
+        photoUrl.push(
+          {
+            small:photo.imageUrl,
+            medium:photo.imageUrl,
+            big:photo.imageUrl
+          }
+        );
+
+      }
+
+    }
+    return photoUrl;
   }
 
 
